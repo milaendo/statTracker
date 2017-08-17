@@ -1,0 +1,8 @@
+{
+    "db":{
+        "host":"localhost",
+        "user":"root", // change me
+        "password":"", // change me
+        "database":"statData" // change me
+    }
+}
