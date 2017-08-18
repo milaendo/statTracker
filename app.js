@@ -71,6 +71,7 @@ app.post("/api/activities", Authenticate, function(req,res, next){
 	})
 })
 
+//this has been tested
 app.get("/api/activities/:id", Authenticate, function(req,res,next) {
 	//Show information about one activity I am tracking, and give me the data I have recorded for that activity.
 	const id = req.params.id
@@ -84,9 +85,9 @@ FROM
         JOIN
     stats s
 WHERE
-    s.activityid = id;`
+    s.activityid = ?;`
 
-    conn.query(sql,function(err, results, fields){
+    conn.query(sql,[id],function(err, results, fields){
     	let stuff = {activities: results}
     	res.json(stuff)
     })
@@ -154,12 +155,13 @@ app.post("/api/activities/:id/stats", Authenticate, function(req,res,next){
 
 })
 
+// this has been tested
 app.delete("/api/stats/:id", Authenticate, function(req,res,next){
 	//Remove tracked data for a day.
 	const date = req.body.date
 	const id = req.params.id
-	const sql = `delete from stats where id = ? and date = ?`
-	conn.query(sql, [date,id],function(err, results, fields){
+	const sql = `delete from stats where id = ? and date = date(?)`
+	conn.query(sql, [id, date],function(err, results, fields){
 		if (err){
 			res.json("cant delete that")
 		}
@@ -170,7 +172,7 @@ app.delete("/api/stats/:id", Authenticate, function(req,res,next){
 	
 })
 
-
+//this has been tested
 app.post("/token", function(req,res,next){
 	const username = req.body.username
 	const password = req.body.password 
@@ -206,7 +208,7 @@ app.post("/token", function(req,res,next){
 	})
 })
 
-
+//this has been tested
 app.post("/register", function(req, res, next){
 	const username = req.body.username
 	const password = req.body.password 
